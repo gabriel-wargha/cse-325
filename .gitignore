@@ -8,3 +8,7 @@ obj/
 # Editor
 .vscode/
 .idea/
+
+# SQLite temp files
+*.db-shm
+*.db-wal

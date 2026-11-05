@@ -4,11 +4,17 @@
     <style>
         :root {
             --board-bg: @ColorTranslator.ToHtml(BoardColor);
+        }
+    </style>
+</HeadContent>
+
+<style>
+        :root {
             --player1: @ColorTranslator.ToHtml(Player1Color);
             --player2: @ColorTranslator.ToHtml(Player2Color);
         }
     </style>
-</HeadContent>
+
 
 <nav>
     @for (byte i = 0; i < 7; i++)
@@ -24,6 +30,12 @@
     <span class="alert-danger">@errorMessage</span>
     <span class="alert-info">@CurrentTurn</span>
 </article>
+
+<input @bind="color1" placeholder="Color player 1">
+<input @bind="color2" placeholder="Color player 2">
+<button @onclick="changeColors">Set colors</button>
+<p>@message</p>
+
 
 <div>
 
@@ -41,6 +53,8 @@
     }
 </div>
 @code {
+    string color1;
+    string color2;
 
     private string[] pieces = new string[42];
     private string winnerMessage = string.Empty;
@@ -79,14 +93,26 @@ void ResetGame()
     pieces = new string[42];
 }
 
+void changeColors(){
+    try{
+    message = "";
+   Player1Color = ColorTranslator.FromHtml(color1);
+   Player2Color = ColorTranslator.FromHtml(color2);
+   }
+   catch(Exception)
+   {
+   message = "Please use valid colors names";
+   }
+}
+
 [Parameter]
 public Color BoardColor { get; set; } = ColorTranslator.FromHtml("yellow");
 
-[Parameter]
 public Color Player1Color { get; set; } = ColorTranslator.FromHtml("red");
 
-[Parameter]
 public Color Player2Color { get; set; } = ColorTranslator.FromHtml("blue");
+
+public string message = "Please use valid colors names";
 
     protected override void OnInitialized()
     {
